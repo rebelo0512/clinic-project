@@ -30,7 +30,7 @@ yarn typeorm migration:run
 ./scripts/init-docker.sh
 ```
 
-4 - Para ver a documentação da API basta acessar http://seu-ip:3000/api-docs
+5 - Para ver a documentação da API basta acessar http://seu-ip:3000/api-docs
 
 ## Arquitetura
 
