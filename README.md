@@ -8,7 +8,19 @@ API para manutenção de laboratórios e exames.
 
 2 - Setar as variaveis no .env ou .env.dev. Dependendo ser for em prod ou dev
 
-3 -
+3 - Acessar container do mysql e rodar as migrações
+
+```bash
+# Desenvolvimento
+docker exec -ti cl-mysql-dev bash
+
+# Produção
+docker exec -ti cl-mysql bash
+
+yarn typeorm migration:run
+```
+
+4 - Rodar o script para criação dos containers
 
 ```bash
 # Desenvolvimento

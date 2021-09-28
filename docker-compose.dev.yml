@@ -1,15 +1,15 @@
 version: '3.9'
 services:
-  wa-project-dev:
-    container_name: 'wa-project-dev'
+  clinic-project-dev:
+    container_name: 'clinic-project-dev'
     command: 'npm run start:dev'
     depends_on:
-      - wa-mysql-dev
+      - cl-mysql-dev
     build: '.'
     ports:
       - '${PORT}:${PORT}'
     volumes:
-      - ./.:/var/www/wa-project
+      - ./.:/var/www/clinic-project
     environment:
       - LANG=C.UTF-8
       - LC_ALL=C.UTF-8
@@ -20,9 +20,9 @@ services:
       - DB_DATABASE=${DB_DATABASE}
       - DB_PORT=${DB_PORT}
 
-  wa-mysql-dev:
+  cl-mysql-dev:
     image: mysql
-    container_name: wa-mysql-dev
+    container_name: cl-mysql-dev
     environment:
       - MYSQL_USER=${DB_USERNAME}
       - MYSQL_PASSWORD=${DB_PASSWORD}

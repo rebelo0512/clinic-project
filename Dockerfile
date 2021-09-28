@@ -1,6 +1,6 @@
 FROM node:16.4.1-alpine
 
-WORKDIR /var/www/wa-project
+WORKDIR /var/www/clinic-project
 
 COPY package*.json ./
 
