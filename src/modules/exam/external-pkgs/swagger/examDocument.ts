@@ -50,6 +50,109 @@ export const examCreateDocument: IDocumentSwagger = {
   },
 };
 
+export const examCreateInLotDocument: IDocumentSwagger = {
+  apiOperation: {
+    summary: 'Cadastra varios exames',
+    description: 'Cadastra varios exames.',
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              exams: {
+                type: 'array',
+                items: {
+                  properties: {
+                    name: { type: 'string' },
+                    type: {
+                      type: 'string',
+                      example: 'IMAGEM ou ANALISE CLINICA',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  api201Response: {
+    status: 201,
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: {
+            properties: {
+              id: { type: 'number' },
+              message: { type: 'string' },
+              status: { type: 'boolean' },
+            },
+          },
+        },
+      },
+    },
+  },
+  api400Response: {
+    status: 400,
+    description: 'Array de exames está invalido',
+  },
+};
+
+export const examUpdateInLotDocument: IDocumentSwagger = {
+  apiOperation: {
+    summary: 'Atualiza varios exames',
+    description: 'Atualiza varios exames.',
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              exams: {
+                type: 'array',
+                items: {
+                  properties: {
+                    id: { type: 'number' },
+                    name: { type: 'string' },
+                    type: {
+                      type: 'string',
+                      example: 'IMAGEM ou ANALISE CLINICA',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  api200Response: {
+    status: 200,
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: {
+            properties: {
+              id: { type: 'number' },
+              message: { type: 'string' },
+              status: { type: 'boolean' },
+            },
+          },
+        },
+      },
+    },
+  },
+  api400Response: {
+    status: 400,
+    description: 'Array de exames está invalido',
+  },
+};
+
 export const examUpdateDocument: IDocumentSwagger = {
   apiOperation: {
     summary: 'Atualiza um exame',
@@ -126,6 +229,52 @@ export const examInactiveDocument: IDocumentSwagger = {
   api404Response: {
     status: 404,
     description: 'Exame não encontrado',
+  },
+};
+
+export const examDeleteInLotDocument: IDocumentSwagger = {
+  apiOperation: {
+    summary: 'Exclui varios exames',
+    description: 'Exclui varios exames e suas associações',
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              exams: {
+                type: 'array',
+                items: {
+                  properties: {
+                    id: { type: 'number' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  api200Response: {
+    status: 200,
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: {
+            properties: {
+              id: { type: 'number' },
+              status: { type: 'boolean' },
+            },
+          },
+        },
+      },
+    },
+  },
+  api400Response: {
+    status: 400,
+    description: 'Array de exames está invalido',
   },
 };
 

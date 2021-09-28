@@ -5,10 +5,13 @@ import { LaboratoryMysqlRepository } from './external-pkgs/typeorm/repositories/
 import { LaboratoryRepositoryString } from './interfaces/repositories/ILaboratoryRepository';
 import { LaboratoryRoute } from './routes/laboratory.route';
 import { LaboratoryCreateService } from './services/laboratory/LaboratoryCreate.service';
+import { LaboratoryCreateInLotService } from './services/laboratory/LaboratoryCreateInLot.service';
 import { LaboratoryDeleteService } from './services/laboratory/LaboratoryDelete.service';
+import { LaboratoryDeleteInLotService } from './services/laboratory/LaboratoryDeleteInLot.service';
 import { LaboratoryGetAllService } from './services/laboratory/LaboratoryGetAll.service';
 import { LaboratoryInactiveService } from './services/laboratory/LaboratoryInactive.service';
 import { LaboratoryUpdateService } from './services/laboratory/LaboratoryUpdate.service';
+import { LaboratoryUpdateInLotService } from './services/laboratory/LaboratoryUpdateInLot.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([LaboratoryModel])],
@@ -23,9 +26,12 @@ import { LaboratoryUpdateService } from './services/laboratory/LaboratoryUpdate.
     // Services
     LaboratoryGetAllService,
     LaboratoryCreateService,
+    LaboratoryCreateInLotService,
+    LaboratoryUpdateInLotService,
     LaboratoryUpdateService,
     LaboratoryInactiveService,
     LaboratoryDeleteService,
+    LaboratoryDeleteInLotService,
   ],
 })
 export class LaboratoryModule {}

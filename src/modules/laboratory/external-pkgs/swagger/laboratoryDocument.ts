@@ -38,6 +38,103 @@ export const laboratoryCreateDocument: IDocumentSwagger = {
   },
 };
 
+export const laboratoryCreateInLotDocument: IDocumentSwagger = {
+  apiOperation: {
+    summary: 'Cadastra varios laboratórios de uma vez',
+    description: 'Cadastra varios laboratórios de uma vez.',
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              laboratories: {
+                type: 'array',
+                items: {
+                  properties: {
+                    name: { type: 'string' },
+                    address: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  api201Response: {
+    status: 201,
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: {
+            properties: {
+              id: { type: 'number' },
+              message: { type: 'string' },
+              status: { type: 'boolean' },
+            },
+          },
+        },
+      },
+    },
+  },
+  api400Response: {
+    status: 400,
+    description: 'Array de laboratórios está invalido',
+  },
+};
+
+export const laboratoryUpdateInLotDocument: IDocumentSwagger = {
+  apiOperation: {
+    summary: 'Atualiza varios laboratórios',
+    description: 'Atualiza varios laboratório.',
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              laboratories: {
+                type: 'array',
+                items: {
+                  properties: {
+                    id: { type: 'number' },
+                    name: { type: 'string' },
+                    address: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  api200Response: {
+    status: 200,
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: {
+            properties: {
+              id: { type: 'number' },
+              message: { type: 'string' },
+              status: { type: 'boolean' },
+            },
+          },
+        },
+      },
+    },
+  },
+  api400Response: {
+    status: 400,
+    description: 'Array de laboratórios está invalido',
+  },
+};
+
 export const laboratoryUpdateDocument: IDocumentSwagger = {
   apiOperation: {
     summary: 'Atualiza um laboratório',
@@ -96,5 +193,51 @@ export const laboratoryDeleteDocument: IDocumentSwagger = {
   api404Response: {
     status: 404,
     description: 'Laboratório não encontrado',
+  },
+};
+
+export const laboratoryDeleteInLotDocument: IDocumentSwagger = {
+  apiOperation: {
+    summary: 'Remove varios laboratórios',
+    description: 'Remove varios laboratório com todas as suas associações.',
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              laboratories: {
+                type: 'array',
+                items: {
+                  properties: {
+                    id: { type: 'number' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  api200Response: {
+    status: 200,
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: {
+            properties: {
+              id: { type: 'number' },
+              status: { type: 'boolean' },
+            },
+          },
+        },
+      },
+    },
+  },
+  api400Response: {
+    status: 400,
+    description: 'Array de laboratórios está invalido',
   },
 };

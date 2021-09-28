@@ -27,13 +27,13 @@ Estamos desenvolvendo uma aplicação para as seguintes situações:
   - tipo [analise clinica, imagem]
   - status [ativo, inativo]
 ## Funcionalidades extras
-- Possibilidade de executar cadastro, atualização e remoção em lote;
+# - Possibilidade de executar cadastro, atualização e remoção em lote;
 # - Endpoint que faz a busca por nome do exame e retorna todos os laboratórios associados a esse exame.
 ## Requisitos técnicos
 # - Desenvolver usando *Javascript*
 # - Serviço deve respeitar os princípios RESTFul
 - Criar um `README.md` (arquitetura, instruções de uso, entre outros)
 ## Diferenciais
-- Publicação do ambiente em um serviço cloud de hospedagens (Heroku, AWS, GCP, etc)
-- Configurar a aplicação para rodar em um container
+# - Publicação do ambiente em um serviço cloud de hospedagens (Heroku, AWS, GCP, etc)
+# - Configurar a aplicação para rodar em um container
 # - Documentação da API

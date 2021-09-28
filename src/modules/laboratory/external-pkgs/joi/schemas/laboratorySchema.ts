@@ -9,6 +9,27 @@ export const laboratoryCreateSchema = Joi.object({
   address: Joi.string().max(250).required(),
 });
 
+export const laboratoryCreateInLotSchema = Joi.object({
+  laboratories: Joi.array()
+    .items(
+      Joi.object({
+        name: Joi.string().required(),
+        address: Joi.string().required(),
+      }),
+    )
+    .required(),
+});
+
+export const laboratoryUpdateInLotSchema = Joi.object({
+  laboratories: Joi.array().items(
+    Joi.object({
+      id: Joi.number().required(),
+      name: Joi.string().optional(),
+      address: Joi.string().optional(),
+    }).required(),
+  ),
+});
+
 export const laboratoryUpdateSchema = {
   path: Joi.object({
     id: Joi.number().required(),
@@ -18,3 +39,11 @@ export const laboratoryUpdateSchema = {
     address: Joi.string().max(250).optional(),
   }),
 };
+
+export const laboratoryDeleteInLotSchema = Joi.object({
+  laboratories: Joi.array().items(
+    Joi.object({
+      id: Joi.number().required(),
+    }).required(),
+  ),
+});

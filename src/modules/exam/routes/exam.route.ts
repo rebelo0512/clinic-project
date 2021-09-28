@@ -14,20 +14,26 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JoiValidationGuard } from 'src/shared/external-pkgs/joi/guards/JoiValidation.guard';
 import { idDefaultSchema } from 'src/shared/external-pkgs/joi/joiDefaultFields';
 import {
+  examCreateInLotSchema,
   examCreateSchema,
+  examDeleteInLotSchema,
   examFindAllLaboratoriesSchema,
   examGetAllSchema,
+  examUpdateInLotSchema,
   examUpdateSchema,
 } from '../external-pkgs/joi/schemas/examSchema';
 import {
   examAssociateWithLaboratoryDocument,
   examCreateDocument,
+  examCreateInLotDocument,
   examDeleteDocument,
+  examDeleteInLotDocument,
   examDisassociateWithLaboratoryDocument,
   examFindAllLaboratoriesDocument,
   examGetAllDocument,
   examInactiveDocument,
   examUpdateDocument,
+  examUpdateInLotDocument,
 } from '../external-pkgs/swagger/examDocument';
 import { ExamModel } from '../external-pkgs/typeorm/models/ExamModel.entity';
 import { ValidExamExistGuard } from '../guards/ValidExamExist.guard';
@@ -35,16 +41,31 @@ import { ValidExamNameExistGuard } from '../guards/ValidExamNameExist.guard';
 import { ValidLaboratoryExistByIdGuard } from '../guards/ValidLaboratoryExistById.guard';
 import { IExamAssociateWithLaboratoryDto } from '../interfaces/dtos/exam/IExamAssociateWithLaboratory.dto';
 import { IExamCreateDto } from '../interfaces/dtos/exam/IExamCreate.dto';
+import {
+  IExamCreateInLotDto,
+  IExamCreateInLotReturnDto,
+} from '../interfaces/dtos/exam/IExamCreateInLot.dto';
+import {
+  IExamDeleteInLotDto,
+  IExamDeleteInLotReturnDto,
+} from '../interfaces/dtos/exam/IExamDeleteInLot.dto';
 import { IExamFindAllLaboratoryReturnDto } from '../interfaces/dtos/exam/IExamFindAllLaboratory.dto';
 import { IExamUpdateDto } from '../interfaces/dtos/exam/IExamUpdate.dto';
+import {
+  IExamUpdateInLotDto,
+  IExamUpdateInLotReturnDto,
+} from '../interfaces/dtos/exam/IExamUpdateInLot.dto';
 import { ExamAssociateWithLaboratoryService } from '../services/exam/ExamAssociateWithLaboratory.service';
 import { ExamCreateService } from '../services/exam/ExamCreate.service';
+import { ExamCreateInLotService } from '../services/exam/ExamCreateInLot.service';
 import { ExamDeleteService } from '../services/exam/ExamDelete.service';
+import { ExamDeleteInLotService } from '../services/exam/ExamDeleteInLot.service';
 import { ExamDisassociateWithLaboratoryService } from '../services/exam/ExamDisassociateWithLaboratory.service';
 import { ExamFindAllLaboratoriesService } from '../services/exam/ExamFindAllLaboratories.service';
 import { ExamGetAllService } from '../services/exam/ExamGetAll.service';
 import { ExamInactiveService } from '../services/exam/ExamInactive.service';
 import { ExamUpdateService } from '../services/exam/ExamUpdate.service';
+import { ExamUpdateInLotService } from '../services/exam/ExamUpdateInLot.service';
 
 @Controller()
 @ApiTags('Exam')
@@ -53,10 +74,13 @@ export class ExamRoute {
     private examGetAllService: ExamGetAllService,
     private examFindAllLaboratoriesService: ExamFindAllLaboratoriesService,
     private examCreateService: ExamCreateService,
+    private examCreateInLotService: ExamCreateInLotService,
+    private examUpdateInLotService: ExamUpdateInLotService,
     private examUpdateService: ExamUpdateService,
     private examAssociateWithLaboratoryService: ExamAssociateWithLaboratoryService,
     private examDisassociateWithLaboratoryService: ExamDisassociateWithLaboratoryService,
     private examInactiveService: ExamInactiveService,
+    private examDeleteInLotService: ExamDeleteInLotService,
     private examDeleteService: ExamDeleteService,
   ) {}
 
@@ -100,6 +124,34 @@ export class ExamRoute {
   )
   create(@Body() fields: IExamCreateDto): Promise<ExamModel> {
     return this.examCreateService.execute(fields);
+  }
+
+  /**
+   * ? path: /api/exams/lot
+   */
+  @Post('/lot')
+  @ApiOperation(examCreateInLotDocument.apiOperation)
+  @ApiResponse(examCreateInLotDocument.api201Response)
+  @ApiResponse(examCreateInLotDocument.api400Response)
+  @UseGuards(new JoiValidationGuard(examCreateInLotSchema, 'body'))
+  createInLot(
+    @Body() fields: IExamCreateInLotDto,
+  ): Promise<IExamCreateInLotReturnDto[]> {
+    return this.examCreateInLotService.execute(fields);
+  }
+
+  /**
+   * ? path: /api/exams/lot
+   */
+  @Put('/lot')
+  @ApiOperation(examUpdateInLotDocument.apiOperation)
+  @ApiResponse(examUpdateInLotDocument.api200Response)
+  @ApiResponse(examUpdateInLotDocument.api400Response)
+  @UseGuards(new JoiValidationGuard(examUpdateInLotSchema, 'body'))
+  updateInLot(
+    @Body() fields: IExamUpdateInLotDto,
+  ): Promise<IExamUpdateInLotReturnDto[]> {
+    return this.examUpdateInLotService.execute(fields);
   }
 
   /**
@@ -184,6 +236,20 @@ export class ExamRoute {
   )
   async inactive(@Param('id') id: number): Promise<ExamModel> {
     return this.examInactiveService.execute(id);
+  }
+
+  /**
+   * ? path: /api/exams/lot
+   */
+  @Delete('/lot')
+  @ApiOperation(examDeleteInLotDocument.apiOperation)
+  @ApiResponse(examDeleteInLotDocument.api200Response)
+  @ApiResponse(examDeleteInLotDocument.api400Response)
+  @UseGuards(new JoiValidationGuard(examDeleteInLotSchema, 'body'))
+  deleteInLot(
+    @Body() fields: IExamDeleteInLotDto,
+  ): Promise<IExamDeleteInLotReturnDto[]> {
+    return this.examDeleteInLotService.execute(fields);
   }
 
   /**

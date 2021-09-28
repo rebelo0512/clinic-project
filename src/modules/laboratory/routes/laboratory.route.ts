@@ -14,27 +14,48 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JoiValidationGuard } from 'src/shared/external-pkgs/joi/guards/JoiValidation.guard';
 import { idDefaultSchema } from 'src/shared/external-pkgs/joi/joiDefaultFields';
 import {
+  laboratoryCreateInLotSchema,
   laboratoryCreateSchema,
+  laboratoryDeleteInLotSchema,
   laboratoryGetAllSchema,
+  laboratoryUpdateInLotSchema,
   laboratoryUpdateSchema,
 } from '../external-pkgs/joi/schemas/laboratorySchema';
 import {
   laboratoryCreateDocument,
+  laboratoryCreateInLotDocument,
   laboratoryDeleteDocument,
+  laboratoryDeleteInLotDocument,
   laboratoryGetAllDocument,
   laboratoryInactiveDocument,
   laboratoryUpdateDocument,
+  laboratoryUpdateInLotDocument,
 } from '../external-pkgs/swagger/laboratoryDocument';
 import { LaboratoryModel } from '../external-pkgs/typeorm/models/LaboratoryModel.entity';
 import { ValidLaboratoryExistGuard } from '../guards/ValidLaboratoryExist.guard';
 import { ValidLaboratoryNameExistGuard } from '../guards/ValidLaboratoryNameExist.guard';
 import { ILaboratoryCreateDto } from '../interfaces/dtos/laboratory/ILaboratoryCreate.dto';
+import {
+  ILaboratoryCreateInLotDto,
+  ILaboratoryCreateInLotReturnDto,
+} from '../interfaces/dtos/laboratory/ILaboratoryCreateInLot.dto';
+import {
+  ILaboratoryDeleteInLotDto,
+  ILaboratoryDeleteInLotReturnDto,
+} from '../interfaces/dtos/laboratory/ILaboratoryDeleteInLot.dto';
 import { ILaboratoryUpdateDto } from '../interfaces/dtos/laboratory/ILaboratoryUpdate.dto';
+import {
+  ILaboratoryUpdateInLotDto,
+  ILaboratoryUpdateInLotReturnDto,
+} from '../interfaces/dtos/laboratory/ILaboratoryUpdateInLot.dto';
 import { LaboratoryCreateService } from '../services/laboratory/LaboratoryCreate.service';
+import { LaboratoryCreateInLotService } from '../services/laboratory/LaboratoryCreateInLot.service';
 import { LaboratoryDeleteService } from '../services/laboratory/LaboratoryDelete.service';
+import { LaboratoryDeleteInLotService } from '../services/laboratory/LaboratoryDeleteInLot.service';
 import { LaboratoryGetAllService } from '../services/laboratory/LaboratoryGetAll.service';
 import { LaboratoryInactiveService } from '../services/laboratory/LaboratoryInactive.service';
 import { LaboratoryUpdateService } from '../services/laboratory/LaboratoryUpdate.service';
+import { LaboratoryUpdateInLotService } from '../services/laboratory/LaboratoryUpdateInLot.service';
 
 @Controller()
 @ApiTags('Laboratory')
@@ -42,8 +63,11 @@ export class LaboratoryRoute {
   constructor(
     private laboratoryGetAllService: LaboratoryGetAllService,
     private laboratoryCreateService: LaboratoryCreateService,
+    private laboratoryCreateInLotService: LaboratoryCreateInLotService,
+    private laboratoryUpdateInLotService: LaboratoryUpdateInLotService,
     private laboratoryUpdateService: LaboratoryUpdateService,
     private laboratoryInactiveService: LaboratoryInactiveService,
+    private laboratoryDeleteInLotService: LaboratoryDeleteInLotService,
     private laboratoryDeleteService: LaboratoryDeleteService,
   ) {}
 
@@ -71,8 +95,36 @@ export class LaboratoryRoute {
     new JoiValidationGuard(laboratoryCreateSchema, 'body'),
     ValidLaboratoryNameExistGuard,
   )
-  async create(@Body() data: ILaboratoryCreateDto): Promise<LaboratoryModel> {
-    return this.laboratoryCreateService.execute(data);
+  async create(@Body() fields: ILaboratoryCreateDto): Promise<LaboratoryModel> {
+    return this.laboratoryCreateService.execute(fields);
+  }
+
+  /**
+   * ? path: /api/laboratories/lot
+   */
+  @Post('/lot')
+  @UseGuards(new JoiValidationGuard(laboratoryCreateInLotSchema, 'body'))
+  @ApiOperation(laboratoryCreateInLotDocument.apiOperation)
+  @ApiResponse(laboratoryCreateInLotDocument.api201Response)
+  @ApiResponse(laboratoryCreateInLotDocument.api400Response)
+  async createInLot(
+    @Body() fields: ILaboratoryCreateInLotDto,
+  ): Promise<ILaboratoryCreateInLotReturnDto[]> {
+    return this.laboratoryCreateInLotService.execute(fields);
+  }
+
+  /**
+   * ? path: /api/laboratories/lot
+   */
+  @Put('/lot')
+  @UseGuards(new JoiValidationGuard(laboratoryUpdateInLotSchema, 'body'))
+  @ApiOperation(laboratoryUpdateInLotDocument.apiOperation)
+  @ApiResponse(laboratoryUpdateInLotDocument.api200Response)
+  @ApiResponse(laboratoryUpdateInLotDocument.api400Response)
+  async updateInLot(
+    @Body() fields: ILaboratoryUpdateInLotDto,
+  ): Promise<ILaboratoryUpdateInLotReturnDto[]> {
+    return this.laboratoryUpdateInLotService.execute(fields);
   }
 
   /**
@@ -92,9 +144,9 @@ export class LaboratoryRoute {
   )
   async update(
     @Param('id') id: number,
-    @Body() data: ILaboratoryUpdateDto,
+    @Body() fields: ILaboratoryUpdateDto,
   ): Promise<LaboratoryModel> {
-    return this.laboratoryUpdateService.execute(id, data);
+    return this.laboratoryUpdateService.execute(id, fields);
   }
 
   /**
@@ -111,6 +163,20 @@ export class LaboratoryRoute {
   )
   inactive(@Param('id') id: number): Promise<LaboratoryModel> {
     return this.laboratoryInactiveService.execute(id);
+  }
+
+  /**
+   * ? path: /api/laboratories/lot
+   */
+  @Delete('/lot')
+  @UseGuards(new JoiValidationGuard(laboratoryDeleteInLotSchema, 'body'))
+  @ApiOperation(laboratoryDeleteInLotDocument.apiOperation)
+  @ApiResponse(laboratoryDeleteInLotDocument.api200Response)
+  @ApiResponse(laboratoryDeleteInLotDocument.api400Response)
+  deleteInLot(
+    @Body() fields: ILaboratoryDeleteInLotDto,
+  ): Promise<ILaboratoryDeleteInLotReturnDto[]> {
+    return this.laboratoryDeleteInLotService.execute(fields);
   }
 
   /**

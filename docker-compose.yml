@@ -1,10 +1,9 @@
 version: '3.9'
 services:
-  wa-project-dev:
-    container_name: 'wa-project-dev'
-    command: 'npm run start:dev'
+  wa-project:
+    container_name: 'wa-project'
     depends_on:
-      - wa-mysql-dev
+      - wa-mysql
     build: '.'
     ports:
       - '${PORT}:${PORT}'
@@ -20,9 +19,9 @@ services:
       - DB_DATABASE=${DB_DATABASE}
       - DB_PORT=${DB_PORT}
 
-  wa-mysql-dev:
+  wa-mysql:
     image: mysql
-    container_name: wa-mysql-dev
+    container_name: wa-mysql
     environment:
       - MYSQL_USER=${DB_USERNAME}
       - MYSQL_PASSWORD=${DB_PASSWORD}
